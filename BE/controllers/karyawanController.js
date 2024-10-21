@@ -6,11 +6,14 @@ const fs = require("fs");
 exports.createKaryawan = async (req, res) => {
   try {
     const data = await Karyawan.create(req.body);
-    await Tlog.create({
-      Tanggal: new Date(),
-      Jam: new Date(),
-      Keterangan: `Inserted new Karyawan`,
-    });
+    if (data) {
+      await Tlog.create({
+        Tanggal: new Date(),
+        Jam: new Date(),
+        Keterangan: `Inserted new Karyawan ${data.id}`,
+      });
+    }
+
     res.status(201).json(data);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -46,11 +49,14 @@ exports.updateKaryawan = async (req, res) => {
     });
     if (updated) {
       const updatedKaryawan = await Karyawan.findByPk(req.params.id);
-      await Tlog.create({
-        Tanggal: new Date(),
-        Jam: new Date(),
-        Keterangan: `Updated Karyawan with ID: ${req.params.id}`,
-      });
+      if (updatedKaryawan) {
+        await Tlog.create({
+          Tanggal: new Date(),
+          Jam: new Date(),
+          Keterangan: `Updated Karyawan with ID: ${req.params.id}`,
+        });
+      }
+
       res.status(200).json(updatedKaryawan);
     } else {
       res.status(404).json({ message: "Karyawan not found" });
