@@ -10,7 +10,7 @@ exports.createKaryawan = async (req, res) => {
       await Tlog.create({
         Tanggal: new Date(),
         Jam: new Date(),
-        Keterangan: `Inserted new Karyawan ${data.id}`,
+        Keterangan: `Inserted new Karyawan ID: ${data.id}`,
       });
     }
 
